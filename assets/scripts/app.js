@@ -12,6 +12,7 @@ const LOG_EVENT_PLAYER_HEAL = 'PLAYER_HEAL';
 const LOG_EVENT_GAME_OVER = 'GAME_OVER'
 
 let chosenMaxHealth = parseInt(enteredValueHp);
+let lastLoggedEvent;
 
 if (isNaN(chosenMaxHealth) || chosenMaxHealth < 0) {
     chosenMaxHealth = 100;
@@ -193,11 +194,11 @@ function printLogHandler() {
     // for (let i = 0; i < 3; i++) {
     //     console.log('-----------');
     // }
-    let j = 0;
-    while (j < 3) {
+    let j = 3;
+    do {
         console.log(j);
         j++;
-    }
+    } while (j < 3);
     // for (let i = 0; i < battleLog.length; i++) {
     //     console.log(battleLog[i]);
     // }
@@ -206,9 +207,13 @@ function printLogHandler() {
     // }
     let i = 0;
     for (const logEntry of battleLog) {
-        console.log(`#${i}`);
-        for (const key in logEntry) {
-            console.log(`${key} => ${logEntry[key]}`);      // this for is to make battle log readable
+        if ((!lastLoggedEvent && lastLoggedEvent !== 0) || lastLoggedEvent < i) {
+            console.log(`#${i}`);
+            for (const key in logEntry) {
+                console.log(`${key} => ${logEntry[key]}`);      // this for is to make battle log readable
+            }
+        lastLoggedEvent = i;
+        break;
         }
         i++;
     }
@@ -230,3 +235,4 @@ logBtn.addEventListener('click', printLogHandler);
 //         console.log(randomNumbers);              while loop that will log an array of every number, stops execute when it hits >0.5
 //     }
 // }
+//lets see if this works
