@@ -2,7 +2,6 @@ const ATTACK_VALUE = 10;
 const MONSTER_ATTACK_VALUE = 14;
 const STRONG_ATTACK_VALUE = 10;
 const HEAL_VALUE = 20;
-const enteredValueHp = prompt('Choose your health.', '');
 const MODE_ATTACK = 'ATTACK';
 const MODE_STRONG_ATTACK = 'STRONG ATTACK';
 const LOG_EVENT_PLAYER_ATTACK = 'PLAYER_ATTACK'
@@ -11,17 +10,32 @@ const LOG_EVENT_MONSTER_ATTACK = 'MONSTER_ATTACK';
 const LOG_EVENT_PLAYER_HEAL = 'PLAYER_HEAL';
 const LOG_EVENT_GAME_OVER = 'GAME_OVER'
 
-let chosenMaxHealth = parseInt(enteredValueHp);
+//let chosenMaxHealth = parseInt(enteredValueHp);
+let battleLog = [];
 let lastLoggedEvent;
 
-if (isNaN(chosenMaxHealth) || chosenMaxHealth < 0) {
-    chosenMaxHealth = 100;
-};
+function getMaxLifeValues() {
+    const enteredValueHp = prompt('Choose your health.', '');
+    
+    const parsedValue = parseInt(enteredValueHp);
+    if (isNaN(parsedValue) || parsedValue <=  0) {
+        throw { message: "Invalid User Input!"};
+    } 
+    return parsedValue;
+}
+
+let chosenMaxHealth;
+
+try {
+let chosenMaxHealth = getMaxLifeValues();
+} catch (error){
+    console.log(error);
+    chosenMaxHealth = prompt('Pls enter a correct value', '');
+}
 
 let currentMonsterHealth = chosenMaxHealth;
 let currentPlayerHealth = chosenMaxHealth;
 let hasBonusLife = true; 
-let battleLog = [];
 
 adjustHealthBars(chosenMaxHealth);
 
